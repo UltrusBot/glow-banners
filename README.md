@@ -1,9 +1,2 @@
-# Fabric Example Mod
-
-## Setup
-
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+<h1>Glow Banners</h1>
+<p>Lets you right click a banner with a <em>glow ink sac,</em> and make it glow, similar to signs.<br />Breaking a glowing banner will still drop a regular banner.<br /><br /><img src="https://media.discordapp.net/attachments/800276527027716106/869620789442404422/unknown.png?width=1200&amp;height=660" alt="Glowing Banners" width="806" height="443" /></p>
