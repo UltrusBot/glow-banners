@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.ultrusbot.glowingbanners.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "GlowingBannerBlockMixin",
+    "GlowingBannerMixin",
+    "GlowingBannerRenderMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
