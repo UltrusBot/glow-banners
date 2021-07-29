@@ -5,10 +5,10 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "GlowingBannerBlockMixin",
-    "GlowingBannerMixin",
-    "GlowingBannerRenderMixin"
+    "GlowingBannerMixin"
   ],
   "client": [
+    "GlowingBannerRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
