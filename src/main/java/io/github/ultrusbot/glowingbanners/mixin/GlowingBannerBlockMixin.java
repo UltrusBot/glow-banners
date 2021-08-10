@@ -30,9 +30,13 @@ public abstract class GlowingBannerBlockMixin extends BlockWithEntity {
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         ItemStack heldStack = player.getStackInHand(hand);
         boolean hasGlowInkSac = heldStack.isOf(Items.GLOW_INK_SAC);
+
         if (world.isClient()) {
             return (hasGlowInkSac && player.getAbilities().allowModifyWorld) ? ActionResult.SUCCESS : ActionResult.CONSUME;
         } else {
+            if (!hasGlowInkSac) {
+                return ActionResult.PASS;
+            }
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof BannerBlockEntity) {
                 if (((GlowingBannerInterface)blockEntity).isGlowing()) {
@@ -43,7 +47,9 @@ public abstract class GlowingBannerBlockMixin extends BlockWithEntity {
                     Criteria.ITEM_USED_ON_BLOCK.test((ServerPlayerEntity)player, pos, heldStack);
                 }
                 ((GlowingBannerInterface)blockEntity).setGlowing(true);
-                heldStack.decrement(1);
+                if (!player.isCreative()) {
+                    heldStack.decrement(1);
+                }
                 return ActionResult.SUCCESS;
             } else {
                 return ActionResult.PASS;
