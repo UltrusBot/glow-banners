@@ -32,7 +32,7 @@ public abstract class GlowingBannerMixin extends BlockEntity implements GlowingB
     }
 
     @Inject(method = "writeNbt", at = @At("RETURN"))
-    public void writeGlowingNbt(NbtCompound nbt, CallbackInfoReturnable<NbtCompound> cir) {
+    public void writeGlowingNbt(NbtCompound nbt, CallbackInfo ci) {
         nbt.putBoolean("isGlowing", isGlowing);
     }
 

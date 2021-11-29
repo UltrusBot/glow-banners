@@ -44,7 +44,7 @@ public abstract class GlowingBannerBlockMixin extends BlockWithEntity {
                 }
                 world.playSound(null, pos, SoundEvents.ITEM_GLOW_INK_SAC_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 if (player instanceof ServerPlayerEntity) {
-                    Criteria.ITEM_USED_ON_BLOCK.test((ServerPlayerEntity)player, pos, heldStack);
+                    Criteria.ITEM_USED_ON_BLOCK.trigger((ServerPlayerEntity)player, pos, heldStack);
                 }
                 ((GlowingBannerInterface)blockEntity).setGlowing(true);
                 if (!player.isCreative()) {
