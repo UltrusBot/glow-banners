@@ -6,7 +6,7 @@
   "name": "Glow Banners",
   "description": "This mod adds glowing banners",
   "authors": [
-    "Ultra"
+    "UltrusBot"
   ],
   "contact": {
     "homepage": "https://ultrusbot.github.io/",
@@ -26,7 +26,7 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": "1.19.x",
     "java": ">=16"
   }
 }

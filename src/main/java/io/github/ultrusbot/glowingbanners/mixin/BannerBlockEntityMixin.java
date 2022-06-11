@@ -18,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(BannerBlockEntity.class)
-public abstract class GlowingBannerMixin extends BlockEntity implements GlowingBannerInterface {
+public abstract class BannerBlockEntityMixin extends BlockEntity implements GlowingBannerInterface {
 
     private boolean isGlowing = false;
 
-    public GlowingBannerMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BannerBlockEntityMixin(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

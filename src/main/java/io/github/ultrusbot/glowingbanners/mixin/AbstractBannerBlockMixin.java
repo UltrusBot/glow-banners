@@ -21,8 +21,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(AbstractBannerBlock.class)
-public abstract class GlowingBannerBlockMixin extends BlockWithEntity {
-    protected GlowingBannerBlockMixin(Settings settings) {
+public abstract class AbstractBannerBlockMixin extends BlockWithEntity {
+    protected AbstractBannerBlockMixin(Settings settings) {
         super(settings);
     }
 

@@ -4,11 +4,11 @@
   "package": "io.github.ultrusbot.glowingbanners.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "GlowingBannerBlockMixin",
-    "GlowingBannerMixin"
+    "AbstractBannerBlockMixin",
+    "BannerBlockEntityMixin"
   ],
   "client": [
-    "GlowingBannerRenderMixin"
+    "BannerBlockEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
