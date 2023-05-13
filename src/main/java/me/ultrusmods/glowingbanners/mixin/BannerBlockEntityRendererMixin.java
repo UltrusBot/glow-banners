@@ -1,6 +1,6 @@
-package io.github.ultrusbot.glowingbanners.mixin;
+package me.ultrusmods.glowingbanners.mixin;
 
-import io.github.ultrusbot.glowingbanners.GlowingBannerInterface;
+import me.ultrusmods.glowingbanners.GlowingBannerInterface;
 import net.minecraft.block.entity.BannerBlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BannerBlockEntityRenderer;

@@ -1,4 +1,4 @@
-package io.github.ultrusbot.glowingbanners;
+package me.ultrusmods.glowingbanners;
 
 public interface GlowingBannerInterface {
     boolean isGlowing();

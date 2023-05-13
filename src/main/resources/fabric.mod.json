@@ -9,8 +9,9 @@
     "UltrusBot"
   ],
   "contact": {
-    "homepage": "https://ultrusbot.github.io/",
-    "sources": "https://github.com/UltrusBot/glow-banners"
+    "homepage": "https://www.ultrusmods.me/",
+    "sources": "https://github.com/UltrusBot/glow-banners",
+    "issues": "https://github.com/UltrusBot/glow-banners/issues"
   },
 
   "license": "MIT",
@@ -18,6 +19,9 @@
 
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "me.ultrusmods.glowingbanners.GlowBannersMod"
+    ]
   },
   "mixins": [
     "glowingbanners.mixins.json"
@@ -26,7 +30,6 @@
   "depends": {
     "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.19.x",
-    "java": ">=16"
+    "minecraft": "1.19.x"
   }
 }

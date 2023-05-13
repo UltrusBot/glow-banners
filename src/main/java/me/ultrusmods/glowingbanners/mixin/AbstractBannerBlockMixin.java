@@ -1,6 +1,6 @@
-package io.github.ultrusbot.glowingbanners.mixin;
+package me.ultrusmods.glowingbanners.mixin;
 
-import io.github.ultrusbot.glowingbanners.GlowingBannerInterface;
+import me.ultrusmods.glowingbanners.GlowingBannerInterface;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.BlockState;
