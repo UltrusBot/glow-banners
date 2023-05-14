@@ -1,8 +1,8 @@
 [versions]
-minecraft = "1.19.2"
-quilt_mappings = "1.19.2+build.22"
-fabric_loader = "0.14.10"
-fabric_api = "0.66.0+1.19.2"
+minecraft = "1.19.4"
+quilt_mappings = "1.19.4+build.10"
+fabric_loader = "0.14.19"
+fabric_api = "0.80.0+1.19.4"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

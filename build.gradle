@@ -41,9 +41,9 @@ dependencies {
 }
 
 var mod = createModReleaseMetadata(
-		"Glow Banners $project.version",
+		"Glow Banners v$project.version",
 		file("$rootDir/CHANGELOG.md"),
-		["1.19.2"],
+		["1.19.4"],
 		["fabric", "quilt"],
 		"remapJar",
 		["remapSourcesJar"],
@@ -51,7 +51,7 @@ var mod = createModReleaseMetadata(
 		false
 )
 modrinthInfo(mod, "glow-banners")
-githubInfo(mod, "UltrusBot", "glow-banners", "1.19.2")
+githubInfo(mod, "UltrusBot", "glow-banners", "1.19.4")
 curseforgeInfo(mod, "508940")
 
 processResources {
