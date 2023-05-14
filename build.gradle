@@ -41,7 +41,7 @@ dependencies {
 }
 
 var mod = createModReleaseMetadata(
-		"Glow Banners $project.version Fabric/Quilt",
+		"Glow Banners $project.version",
 		file("$rootDir/CHANGELOG.md"),
 		["1.19.2"],
 		["fabric", "quilt"],
