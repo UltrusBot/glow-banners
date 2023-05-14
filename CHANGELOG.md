@@ -1,0 +1,3 @@
+- When you break banners that are glowing, it now retains that glowing attribute in item form, and can be placed down again to continue glowing.
+- Clicking on a cauldron filled with water, with a glowing banner will erase the glowing.
+- If you use a glow banner with a shield, the shield will glow too now.

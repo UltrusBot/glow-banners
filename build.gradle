@@ -2,8 +2,11 @@ plugins {
 	id 'fabric-loom' version '0.11.+'
 	id 'maven-publish'
 	id 'io.github.juuxel.loom-quiltflower' version '1.6.0'
-	id 'org.quiltmc.quilt-mappings-on-loom' version '4.0.0'
+	id "com.github.breadmoirai.github-release" version "2.4.1"
+	id "com.modrinth.minotaur" version "2.+"
+	id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
+apply from: 'https://raw.githubusercontent.com/UltrusBot/GradleScripts/master/release.gradle'
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
@@ -14,11 +17,11 @@ group = project.maven_group
 
 repositories {
 	maven {
-		name 'Quilt'
-		url 'https://maven.quiltmc.org/repository'
+		name = "Quilt"
+		url 'https://maven.quiltmc.org/repository/release'
 	}
 	maven {
-		name 'Quilt Snapshots'
+		name = "Quilt Snapshots"
 		url 'https://maven.quiltmc.org/repository/snapshot'
 	}
 	maven {
@@ -36,6 +39,20 @@ dependencies {
 //	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.9")
 
 }
+
+var mod = createModReleaseMetadata(
+		"Glow Banners $project.version Fabric/Quilt",
+		file("$rootDir/CHANGELOG.md"),
+		["1.19.2"],
+		["fabric", "quilt"],
+		"remapJar",
+		["remapSourcesJar"],
+		"v${project.version}",
+		false
+)
+modrinthInfo(mod, "glow-banners")
+githubInfo(mod, "UltrusBot", "glow-banners", "1.19.2")
+curseforgeInfo(mod, "508940")
 
 processResources {
 	inputs.property "version", project.version
