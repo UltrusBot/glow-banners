@@ -4,9 +4,9 @@ plugins {
 	id 'io.github.juuxel.loom-quiltflower' version '1.6.0'
 	id "com.github.breadmoirai.github-release" version "2.4.1"
 	id "com.modrinth.minotaur" version "2.+"
-	id 'com.matthewprenger.cursegradle' version '1.4.0'
+	id 'me.hypherionmc.cursegradle' version '2.0.1'
 }
-apply from: 'https://raw.githubusercontent.com/UltrusBot/GradleScripts/master/release.gradle'
+apply from: 'https://raw.githubusercontent.com/UltrusBot/GradleScripts/1deb0dd4b4553d7845e21442227abb4c29b17ee8/release.gradle'
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
