@@ -1,1 +1,1 @@
-- Ported v1.3.0 to Minecraft 1.19.4
+- Updated fabric mod json to add 1.20 and 1.19.4

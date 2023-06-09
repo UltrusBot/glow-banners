@@ -43,7 +43,7 @@ dependencies {
 var mod = createModReleaseMetadata(
 		"Glow Banners v$project.version",
 		file("$rootDir/CHANGELOG.md"),
-		["1.19.4"],
+		["1.19.4", "1.20"],
 		["fabric", "quilt"],
 		"remapJar",
 		["remapSourcesJar"],
