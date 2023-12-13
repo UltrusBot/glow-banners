@@ -1,15 +1,16 @@
 [versions]
-minecraft = "1.19.4"
-quilt_mappings = "1.19.4+build.10"
-fabric_loader = "0.14.19"
-fabric_api = "0.80.0+1.19.4"
+minecraft = "1.20.4"
+fabric_loader = "0.14.25"
+fabric_api = "0.91.1+1.20.4"
+neoforge = "20.4.22-beta"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
 
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 [bundles]
 

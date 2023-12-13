@@ -1,0 +1,71 @@
+plugins {
+    id 'fabric-loom'
+    id 'maven-publish'
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+base {
+    archivesName = "${archivesBaseName}-fabric"
+}
+version = project.version
+group = project.maven_group
+
+repositories {
+    maven {
+        name = "Quilt"
+        url 'https://maven.quiltmc.org/repository/release'
+    }
+    maven {
+        name = "Quilt Snapshots"
+        url 'https://maven.quiltmc.org/repository/snapshot'
+    }
+}
+
+dependencies {
+    minecraft libs.minecraft
+    mappings(loom.officialMojangMappings())
+    modImplementation libs.fabric.loader
+
+    modImplementation libs.fabric.api
+//	include implementation("com.github.LlamaLad7:MixinExtras:0.0.9")
+//	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.9")
+
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    source(project(":common").sourceSets.main.allSource)
+}
+tasks.withType(Javadoc).configureEach {
+    source(project(":common").sourceSets.main.allJava)
+}
+tasks.named("sourcesJar", Jar) {
+    from(project(":common").sourceSets.main.allSource)
+}
+
+processResources {
+    from project(":common").sourceSets.main.resources
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId base.archivesName.get()
+            from components.java
+        }
+    }
+
+    repositories {
+        // TODO: Ultrus places maven here.
+    }
+}
