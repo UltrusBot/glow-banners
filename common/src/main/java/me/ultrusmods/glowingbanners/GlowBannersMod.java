@@ -41,7 +41,7 @@ public class GlowBannersMod {
         BlockEntity entity = level.getBlockEntity(pos);
 
         if (entity instanceof BannerBlockEntity) {
-            return GlowBannersMod.addGlowingToBanner(player, level, hand, result);
+            return GlowBannersMod.addOrRemoveGlowingToFromBanner(player, level, hand, result);
         } else if (state.getBlock() instanceof LayeredCauldronBlock block && ((AbstractCauldronBlockAccessor)block).glowBanners$getInteractions().equals(CauldronInteraction.WATER)) {
             return GlowBannersMod.removeGlowFromBanner(player, level, hand, result);
         }
@@ -49,38 +49,39 @@ public class GlowBannersMod {
         return InteractionResult.PASS;
     }
 
-    private static InteractionResult addGlowingToBanner(Player player, Level level, InteractionHand hand, BlockHitResult result) {
+    private static InteractionResult addOrRemoveGlowingToFromBanner(Player player, Level level, InteractionHand hand, BlockHitResult result) {
         ItemStack heldStack = player.getItemInHand(hand);
         boolean hasGlowInkSac = heldStack.is(Items.GLOW_INK_SAC);
+        boolean hasInkSac = heldStack.is(Items.INK_SAC);
         BlockPos pos = result.getBlockPos();
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof BannerBlockEntity bannerBlockEntity) {
             IBannerGlowData data = IGlowBannersPlatformHelper.INSTANCE.getData(bannerBlockEntity);
 
-            if (!data.shouldAllGlow())  {
-                if (level.isClientSide()) {
-                    return (hasGlowInkSac && player.getAbilities().mayBuild) ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
-                } else {
-                    if (!hasGlowInkSac) {
-                        return InteractionResult.PASS;
-                    }
-                    if (IGlowBannersPlatformHelper.INSTANCE.getData(bannerBlockEntity).shouldAllGlow()) {
-                        return InteractionResult.PASS;
-                    }
-                    level.playSound(null, result.getBlockPos(), SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                    if (player instanceof ServerPlayer) {
-                        CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, heldStack);
-                    }
-                    data.clearGlowingLayers();
-                    data.setAllGlow(true);
-                    data.sync(bannerBlockEntity);
-
-                    if (!player.getAbilities().instabuild) {
-                        heldStack.shrink(1);
-                    }
-                    return InteractionResult.SUCCESS;
+            if (level.isClientSide()) {
+                return ((hasGlowInkSac && !data.shouldAllGlow() || hasInkSac && (data.shouldAllGlow() || !data.getGlowingLayers().isEmpty())) && player.getAbilities().mayBuild) ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
+            } else {
+                if (!hasGlowInkSac && !hasInkSac) {
+                    return InteractionResult.PASS;
                 }
+                if (hasGlowInkSac && data.shouldAllGlow() || hasInkSac && !data.shouldAllGlow() && data.getGlowingLayers().isEmpty()) {
+                    return InteractionResult.PASS;
+                }
+                level.playSound(null, result.getBlockPos(), hasInkSac ? SoundEvents.INK_SAC_USE : SoundEvents.GLOW_INK_SAC_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger((ServerPlayer) player, pos, heldStack);
+                }
+
+                data.clearGlowingLayers();
+                data.setAllGlow(hasGlowInkSac);
+                data.sync(bannerBlockEntity);
+
+                if (!player.getAbilities().instabuild) {
+                    heldStack.shrink(1);
+                }
+                return InteractionResult.SUCCESS;
             }
         }
 
