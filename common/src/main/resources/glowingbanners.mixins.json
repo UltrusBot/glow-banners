@@ -9,7 +9,10 @@
     "AbstractCauldronBlockAccessor",
     "BannerBlockEntityMixin",
     "BannerItemMixin",
-    "ItemMixin"
+    "ItemMixin",
+    "LoomMenuDyeSlotMixin",
+    "LoomMenuMixin",
+    "ShieldDecorationRecipeMixin"
   ],
   "client": [
     "client.BannerRendererMixin",

@@ -21,18 +21,18 @@ public class ItemBannerGlowComponent extends ItemComponent implements IBannerGlo
 
     @Override
     public boolean shouldAllGlow() {
-        return this.getBoolean("ShouldAllGlow");
+        return this.getBoolean("should_all_glow");
     }
 
     @Override
     public void setAllGlow(boolean value) {
-        this.putBoolean("ShouldAllGlow", value);
+        this.putBoolean("should_all_glow", value);
     }
 
     @Override
     public boolean isLayerGlowing(int layerIndex) {
         if (!initialized) {
-            this.glowingLayers.addAll(this.getList("GlowingLayers", ListTag.TAG_INT).stream().map(tag -> ((IntTag)tag).getAsInt()).toList());
+            this.glowingLayers.addAll(this.getList("glowing_layers", ListTag.TAG_INT).stream().map(tag -> ((IntTag)tag).getAsInt()).toList());
             this.initialized = true;
         }
         return glowingLayers.contains(layerIndex);
@@ -40,29 +40,33 @@ public class ItemBannerGlowComponent extends ItemComponent implements IBannerGlo
 
     @Override
     public void addGlowToLayer(int layerIndex) {
-        ListTag list = this.getList("GlowingLayers", ListTag.TAG_INT);
-        list.add(IntTag.valueOf(layerIndex));
+        ListTag list = this.getList("glowing_layers", ListTag.TAG_INT);
+        IntTag intTag = IntTag.valueOf(layerIndex);
+        if (list.contains(intTag)) return;
+        list.add(intTag);
         list.sort(Comparator.comparingInt(o -> ((IntTag) o).getAsInt()));
-        this.putList("GlowingLayers", list);
+        this.putList("glowing_layers", list);
     }
 
     @Override
-    public void removeLastGlowFromLayer() {
-        ListTag list = this.getList("GlowingLayers", ListTag.TAG_INT);
-        list.remove(list.size() - 1);
+    public void removeGlowFromLayer(int layerIndex) {
+        ListTag list = this.getList("glowing_layers", ListTag.TAG_INT);
+        IntTag intTag = IntTag.valueOf(layerIndex);
+        if (list.isEmpty() || !list.contains(intTag)) return;
+        list.remove(intTag);
         list.sort(Comparator.comparingInt(o -> ((IntTag) o).getAsInt()));
-        this.putList("GlowingLayers", list);
+        this.putList("glowing_layers", list);
     }
 
     @Override
     public void clearGlowingLayers() {
-        this.remove("GlowingLayers");
+        this.remove("glowing_layers");
     }
 
     @Override
     public Collection<Integer> getGlowingLayers() {
         if (!initialized) {
-            this.glowingLayers.addAll(this.getList("GlowingLayers", ListTag.TAG_INT).stream().map(tag -> ((IntTag)tag).getAsInt()).toList());
+            this.glowingLayers.addAll(this.getList("glowing_layers", ListTag.TAG_INT).stream().map(tag -> ((IntTag)tag).getAsInt()).toList());
             this.initialized = true;
         }
         return glowingLayers;

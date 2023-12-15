@@ -40,8 +40,8 @@ public class BannerGlowAttachment implements IBannerGlowData, INBTSerializable<C
     }
 
     @Override
-    public void removeLastGlowFromLayer() {
-        this.glowingLayers.remove(this.glowingLayers.last());
+    public void removeGlowFromLayer(int layerIndex) {
+        this.glowingLayers.remove(layerIndex);
     }
 
     @Override

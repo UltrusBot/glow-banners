@@ -40,8 +40,8 @@ public class BannerGlowComponent implements IBannerGlowData, AutoSyncedComponent
     }
 
     @Override
-    public void removeLastGlowFromLayer() {
-        this.glowingLayers.remove(this.glowingLayers.last());
+    public void removeGlowFromLayer(int layerIndex) {
+        this.glowingLayers.remove(layerIndex);
     }
 
     @Override

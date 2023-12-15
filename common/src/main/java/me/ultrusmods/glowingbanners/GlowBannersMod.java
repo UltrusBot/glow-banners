@@ -113,7 +113,7 @@ public class GlowBannersMod {
                 } else if (BannerBlockEntity.getItemPatterns(itemStack) != null) {
                     int lastLayer = BannerBlockEntity.getItemPatterns(itemStack).size();
                     if (copiedData.isLayerGlowing(lastLayer)) {
-                        copiedData.removeLastGlowFromLayer();
+                        copiedData.removeGlowFromLayer(lastLayer);
                         updated = true;
                     }
                 }

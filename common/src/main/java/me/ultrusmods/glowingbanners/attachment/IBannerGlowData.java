@@ -16,7 +16,7 @@ public interface IBannerGlowData {
     void setAllGlow(boolean value);
     boolean isLayerGlowing(int layerIndex);
     void addGlowToLayer(int layerIndex);
-    void removeLastGlowFromLayer();
+    void removeGlowFromLayer(int layerIndex);
     void clearGlowingLayers();
     Collection<Integer> getGlowingLayers();
     void setGlowingLayers(Collection<Integer> value);
