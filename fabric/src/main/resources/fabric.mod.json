@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "glowingbanners",
+  "version": "${version}",
+
+  "name": "Glow Banners",
+  "description": "This mod adds glowing banners",
+  "authors": [
+    "UltrusBot"
+  ],
+  "contributors": [
+    "MerchantPug"
+  ],
+  "contact": {
+    "homepage": "https://www.ultrusmods.me/",
+    "sources": "https://github.com/UltrusBot/glow-banners",
+    "issues": "https://github.com/UltrusBot/glow-banners/issues"
+  },
+
+  "license": "MIT",
+  "icon": "assets/glowingbanners/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.ultrusmods.glowingbanners.GlowBannersModFabric"
+    ],
+    "cardinal-components": [
+      "me.ultrusmods.glowingbanners.componability.GlowBannersComponents"
+    ]
+  },
+  "mixins": [
+    "glowingbanners.mixins.json"
+  ],
+  "custom": {
+    "cardinal-components": [
+      "glowingbanners:banner_glow",
+      "glowingbanners:banner_glow_item"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15",
+    "fabric-api": "*",
+    "minecraft": ">=1.20.4"
+  }
+}

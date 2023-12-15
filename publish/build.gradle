@@ -11,7 +11,14 @@ publishMods {
     displayName = "${mod_name} v${version}"
     type = STABLE
 
-    def minecraftVersions = [
+    def forgeLoaders = [
+            "neoforge"
+    ]
+    def fabricLoaders = [
+            "fabric",
+            "quilt"
+    ]
+    def mcVersions = [
             "1.20.4"
     ]
 
@@ -20,7 +27,8 @@ publishMods {
 
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
         projectId = "508940"
-        minecraftVersions.addAll(minecraftVersions)
+        modLoaders.addAll(fabricLoaders)
+        minecraftVersions.addAll(mcVersions)
 
         requires {
             slug = "fabric-api"
@@ -32,7 +40,8 @@ publishMods {
 
         accessToken = providers.environmentVariable("MODRINTH_API_KEY")
         projectId = "r7G43arb"
-        minecraftVersions.addAll(minecraftVersions)
+        modLoaders.addAll(fabricLoaders)
+        minecraftVersions.addAll(mcVersions)
 
         requires {
             slug = "fabric-api"
@@ -44,7 +53,8 @@ publishMods {
 
         accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
         projectId = "508940"
-        minecraftVersions.addAll(minecraftVersions)
+        modLoaders.addAll(forgeLoaders)
+        minecraftVersions.addAll(mcVersions)
     }
 
     modrinth("modrinthNeoforge") {
@@ -52,7 +62,8 @@ publishMods {
 
         accessToken = providers.environmentVariable("MODRINTH_API_KEY")
         projectId = "r7G43arb"
-        minecraftVersions.addAll(minecraftVersions)
+        modLoaders.addAll(forgeLoaders)
+        minecraftVersions.addAll(mcVersions)
     }
 
     github {

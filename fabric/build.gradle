@@ -14,21 +14,54 @@ group = project.maven_group
 
 repositories {
     maven {
-        name = "Quilt"
-        url 'https://maven.quiltmc.org/repository/release'
+        name = 'Ladysnake Mods'
+        url = 'https://maven.ladysnake.org/releases'
     }
-    maven {
-        name = "Quilt Snapshots"
-        url 'https://maven.quiltmc.org/repository/snapshot'
+}
+
+
+loom {
+    mixin.defaultRefmapName = "${mod_id}.refmap.json"
+
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
     }
 }
 
 dependencies {
     minecraft libs.minecraft
     mappings(loom.officialMojangMappings())
-    modImplementation libs.fabric.loader
 
+    modImplementation libs.fabric.loader
     modImplementation libs.fabric.api
+
+    // For whatever reason, Fabric Loader didn't seem to bring Mixin Extras over to
+    // this workspace, so I'm including this for precautionary reasons.
+    implementation libs.mixin.extras.fabric
+
+    compileOnly project(":common")
+
+    modApi libs.cca.base
+    modApi libs.cca.block
+    modApi libs.cca.item
+    include libs.cca.base
+    include libs.cca.block
+    include libs.cca.item
+
+    compileOnly libs.autoservice
+    annotationProcessor libs.autoservice
+
 //	include implementation("com.github.LlamaLad7:MixinExtras:0.0.9")
 //	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.9")
 

@@ -9,12 +9,18 @@ base {
 }
 
 minecraft {
-    version(minecraft_version)
+    version(libs.versions.minecraft.get())
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    compileOnly libs.mixin
+    compileOnly libs.mixin.extras.common
+
+    implementation libs.findbugs
 }
 
 publishing {

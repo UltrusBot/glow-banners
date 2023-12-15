@@ -61,7 +61,10 @@ subprojects {
 				"version": version,
 				"group": project.group, //Else we target the task's group.
 				"mod_name": mod_name,
-				"mod_author": mod_author
+				"mod_author": mod_author,
+				"neoforge_loader_version_range": libs.versions.neoforge.loaderrange.get(),
+				"minecraft_version_range": libs.versions.neoforge.minecraftrange.get(),
+				"pack_version": libs.versions.pack.get()
 		]
 
 		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
