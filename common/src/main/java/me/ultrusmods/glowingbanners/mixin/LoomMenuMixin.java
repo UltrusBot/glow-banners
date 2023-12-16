@@ -56,7 +56,7 @@ public abstract class LoomMenuMixin extends AbstractContainerMenu {
             ItemStack result = this.bannerSlot.getItem().copy();
             int lastLayer = BannerBlockEntity.getItemPatterns(result) == null ? 0 : BannerBlockEntity.getItemPatterns(result).size();
 
-            boolean isOriginalLastLayerGlowing = IGlowBannersPlatformHelper.INSTANCE.getData(this.bannerSlot.getItem()).shouldAllGlow() || IGlowBannersPlatformHelper.INSTANCE.getData(this.bannerSlot.getItem()).isLayerGlowing(lastLayer);
+            boolean isOriginalLastLayerGlowing = IGlowBannersPlatformHelper.INSTANCE.getData(banner).shouldAllGlow() || IGlowBannersPlatformHelper.INSTANCE.getData(banner).isLayerGlowing(lastLayer);
             if (hasGlowInkSac && isOriginalLastLayerGlowing || hasInkSac && !isOriginalLastLayerGlowing) {
                 ci.cancel();
                 return;
