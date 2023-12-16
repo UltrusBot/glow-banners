@@ -65,7 +65,13 @@ public abstract class LoomMenuMixin extends AbstractContainerMenu {
             IBannerGlowData resultData = IGlowBannersPlatformHelper.INSTANCE.getData(result);
             if (hasGlowInkSac)
                 resultData.addGlowToLayer(lastLayer);
-            else
+            else if (resultData.shouldAllGlow()) {
+                resultData.setAllGlow(false);
+                resultData.clearGlowingLayers();
+                for (int i = 0; i < Math.max(lastLayer - 1, 0); ++i) {
+                    resultData.addGlowToLayer(i);
+                }
+            } else
                 resultData.removeGlowFromLayer(lastLayer);
 
             this.resultSlot.set(result);
