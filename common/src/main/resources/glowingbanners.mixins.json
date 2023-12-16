@@ -11,8 +11,7 @@
     "BannerItemMixin",
     "ItemMixin",
     "LoomMenuDyeSlotMixin",
-    "LoomMenuMixin",
-    "ShieldDecorationRecipeMixin"
+    "LoomMenuMixin"
   ],
   "client": [
     "client.BannerRendererMixin",
