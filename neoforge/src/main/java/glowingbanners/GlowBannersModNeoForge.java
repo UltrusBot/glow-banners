@@ -14,8 +14,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -29,21 +30,27 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
+import java.util.Map;
+import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
 @Mod(GlowBannersMod.MOD_ID)
 public class GlowBannersModNeoForge {
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, GlowBannersMod.MOD_ID);
-
     public static final ItemCapability<IBannerGlowData, Void> BANNER_GLOW_ITEM = ItemCapability.createVoid(
             GlowBannersMod.asResource("banner_glow"),
             IBannerGlowData.class
     );
+    private static final Map<ItemStack, BannerGlowItemCapability> ITEM_CAPABILITY_CACHE = new WeakHashMap<>(128);
     public static final Supplier<AttachmentType<BannerGlowAttachment>> BANNER_GLOW_BLOCK = ATTACHMENT_TYPES.register("banner_glow", () -> AttachmentType.serializable(BannerGlowAttachment::new).build());
 
     public GlowBannersModNeoForge(IEventBus bus) {
         ATTACHMENT_TYPES.register(bus);
+    }
+
+    public static void clearItemCapCache() {
+        ITEM_CAPABILITY_CACHE.clear();
     }
 
     @Mod.EventBusSubscriber(modid = GlowBannersMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -68,9 +75,9 @@ public class GlowBannersModNeoForge {
         @SubscribeEvent
         public static void registerContents(RegisterEvent event) {
             if (event.getRegistryKey() == NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS) {
-                event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, GlowBannersMod.asResource("set_banner_glow"), () -> GlowBannerLootModifier.CODEC);
+                event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, GlowBannerLootModifier.ID, () -> GlowBannerLootModifier.CODEC);
             } else if (event.getRegistryKey() == Registries.LOOT_CONDITION_TYPE) {
-                event.register(Registries.LOOT_CONDITION_TYPE, GlowBannersMod.asResource("is_banner_block"), () -> IsBannerBlockLootCondition.TYPE);
+                event.register(Registries.LOOT_CONDITION_TYPE, IsBannerBlockLootCondition.ID, () -> new LootItemConditionType(IsBannerBlockLootCondition.CODEC));
             }
         }
         @SubscribeEvent
@@ -79,7 +86,7 @@ public class GlowBannersModNeoForge {
                 if (item instanceof BannerItem || item instanceof ShieldItem)
                     event.registerItem(
                             BANNER_GLOW_ITEM,
-                            (stack, aVoid) -> {
+                            (itemStack, aVoid) -> ITEM_CAPABILITY_CACHE.computeIfAbsent(itemStack, stack -> {
                                 if (stack.getItem() instanceof ShieldItem && BlockItem.getBlockEntityData(stack) == null)
                                     return null;
 
@@ -88,7 +95,7 @@ public class GlowBannersModNeoForge {
                                 if (bannerGlowTag != null && bannerGlowTag.contains(AttachmentHolder.ATTACHMENTS_NBT_KEY) && bannerGlowTag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).contains(IBannerGlowData.ID.toString()))
                                     api.deserialize(bannerGlowTag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).getCompound(IBannerGlowData.ID.toString()));
                                 return api;
-                            },
+                            }),
                             item);
             }
         }

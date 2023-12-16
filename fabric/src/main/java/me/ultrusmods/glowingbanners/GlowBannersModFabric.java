@@ -7,6 +7,7 @@ import me.ultrusmods.glowingbanners.attachment.BannerGlowApi;
 import me.ultrusmods.glowingbanners.attachment.IBannerGlowData;
 import me.ultrusmods.glowingbanners.loot.SetBannerGlowFunction;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
@@ -29,7 +30,11 @@ public class GlowBannersModFabric implements ModInitializer {
     public static final ItemApiLookup<IBannerGlowData, Void> BANNER_GLOW_ITEM =
             ItemApiLookup.get(GlowBannersMod.asResource("banner_glow"), IBannerGlowData.class, Void.class);
 
-    private static final Map<ItemStack, BannerGlowApi> ITEM_API_CACHE = new WeakHashMap<>();
+    private static final Map<ItemStack, BannerGlowApi> ITEM_API_CACHE = new WeakHashMap<>(128);
+
+    public static void clearItemCapCache() {
+        ITEM_API_CACHE.clear();
+    }
 
     @Override
     public void onInitialize() {
