@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Comparator;
 
 public class BannerGlowApi implements IBannerGlowData {
     private final ItemStack provider;
@@ -36,14 +37,17 @@ public class BannerGlowApi implements IBannerGlowData {
     @Override
     public void addGlowToLayer(int layerIndex) {
         ListTag listTag = this.getCardinalComponentsBlockEntityTag().getList("glowing_layers", ListTag.TAG_INT).copy();
-        listTag.add(IntTag.valueOf(layerIndex));
+        IntTag intTag = IntTag.valueOf(layerIndex);
+        if (!listTag.contains(intTag))
+            listTag.add(intTag);
+        listTag.sort(Comparator.comparing(tag -> ((IntTag)tag).getAsInt()));
         this.getCardinalComponentsBlockEntityTag().put("glowing_layers", listTag);
     }
 
     @Override
     public void removeGlowFromLayer(int layerIndex) {
         ListTag listTag = this.getCardinalComponentsBlockEntityTag().getList("glowing_layers", ListTag.TAG_INT).copy();
-        listTag.remove(IntTag.valueOf(layerIndex));
+        listTag.removeIf(tag -> tag == IntTag.valueOf(layerIndex));
         this.getCardinalComponentsBlockEntityTag().put("glowing_layers", listTag);
     }
 
