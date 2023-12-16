@@ -2,7 +2,7 @@
   "type": "glowingbanners:set_banner_glow",
   "conditions": [
     {
-      "type": "glow_banners:is_banner_block"
+      "type": "glowingbanners:is_banner_block"
     }
   ]
 }
