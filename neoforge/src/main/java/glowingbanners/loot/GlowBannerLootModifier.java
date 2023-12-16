@@ -32,8 +32,9 @@ public class GlowBannerLootModifier extends LootModifier {
             BlockEntity blockEntity = lootContext.getParamOrNull(LootContextParams.BLOCK_ENTITY);
             if (blockEntity instanceof BannerBlockEntity) {
                 IBannerGlowData blockEntityData = blockEntity.getData(GlowBannersModNeoForge.BANNER_GLOW_BLOCK);
-                IBannerGlowData stackData = stack.getData(GlowBannersModNeoForge.BANNER_GLOW_ITEM);
-                stackData.setFromOther(blockEntityData);
+                IBannerGlowData stackData = stack.getCapability(GlowBannersModNeoForge.BANNER_GLOW_ITEM);
+                if (stackData != null)
+                    stackData.setFromOther(blockEntityData);
             }
         });
         return objectArrayList;

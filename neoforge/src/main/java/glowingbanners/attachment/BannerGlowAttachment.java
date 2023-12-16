@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.network.PacketDistributor;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,8 +17,7 @@ public class BannerGlowAttachment implements IBannerGlowData, INBTSerializable<C
     private boolean allGlow = false;
     private final SortedSet<Integer> glowingLayers = new TreeSet<>(Integer::compare);
 
-    public BannerGlowAttachment() {
-    }
+    public BannerGlowAttachment() {}
 
     @Override
     public boolean shouldAllGlow() {
@@ -56,13 +56,15 @@ public class BannerGlowAttachment implements IBannerGlowData, INBTSerializable<C
 
     @Override
     public void setGlowingLayers(Collection<Integer> value) {
+        clearGlowingLayers();
         for (int i : value) {
             addGlowToLayer(i);
         }
     }
 
     @Override
-    public void sync(BannerBlockEntity blockEntity) {
+    public void sync(@Nullable BannerBlockEntity blockEntity) {
+        if (blockEntity == null) return;
         GlowBannersNetworkHandler.INSTANCE.send(PacketDistributor.TRACKING_CHUNK.with(() -> blockEntity.getLevel().getChunkAt(blockEntity.getBlockPos())), new SyncBannerGlowS2CPacket(blockEntity.getBlockPos(), this.serializeNBT()));
         blockEntity.invalidateCapabilities();
     }

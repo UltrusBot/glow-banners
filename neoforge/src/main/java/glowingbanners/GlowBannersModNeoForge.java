@@ -1,17 +1,29 @@
 package glowingbanners;
 
 import glowingbanners.attachment.BannerGlowAttachment;
+import glowingbanners.attachment.BannerGlowItemCapability;
 import glowingbanners.loot.GlowBannerLootModifier;
 import glowingbanners.loot.IsBannerBlockLootCondition;
 import glowingbanners.network.GlowBannersNetworkHandler;
 import me.ultrusmods.glowingbanners.GlowBannersMod;
+import me.ultrusmods.glowingbanners.attachment.IBannerGlowData;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.attachment.AttachmentHolder;
 import net.neoforged.neoforge.attachment.AttachmentType;
+import net.neoforged.neoforge.capabilities.ItemCapability;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -24,7 +36,10 @@ public class GlowBannersModNeoForge {
 
     private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, GlowBannersMod.MOD_ID);
 
-    public static final Supplier<AttachmentType<BannerGlowAttachment>> BANNER_GLOW_ITEM = ATTACHMENT_TYPES.register("banner_glow_item", () -> AttachmentType.serializable(BannerGlowAttachment::new).build());
+    public static final ItemCapability<IBannerGlowData, Void> BANNER_GLOW_ITEM = ItemCapability.createVoid(
+            GlowBannersMod.asResource("banner_glow"),
+            IBannerGlowData.class
+    );
     public static final Supplier<AttachmentType<BannerGlowAttachment>> BANNER_GLOW_BLOCK = ATTACHMENT_TYPES.register("banner_glow", () -> AttachmentType.serializable(BannerGlowAttachment::new).build());
 
     public GlowBannersModNeoForge(IEventBus bus) {
@@ -56,6 +71,25 @@ public class GlowBannersModNeoForge {
                 event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, GlowBannersMod.asResource("set_banner_glow"), () -> GlowBannerLootModifier.CODEC);
             } else if (event.getRegistryKey() == Registries.LOOT_CONDITION_TYPE) {
                 event.register(Registries.LOOT_CONDITION_TYPE, GlowBannersMod.asResource("is_banner_block"), () -> IsBannerBlockLootCondition.TYPE);
+            }
+        }
+        @SubscribeEvent
+        public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+            for (Item item : BuiltInRegistries.ITEM) {
+                if (item instanceof BannerItem || item instanceof ShieldItem)
+                    event.registerItem(
+                            BANNER_GLOW_ITEM,
+                            (stack, aVoid) -> {
+                                if (stack.getItem() instanceof ShieldItem && BlockItem.getBlockEntityData(stack) == null)
+                                    return null;
+
+                                CompoundTag bannerGlowTag = BlockItem.getBlockEntityData(stack);
+                                BannerGlowItemCapability api = new BannerGlowItemCapability(stack);
+                                if (bannerGlowTag != null && bannerGlowTag.contains(AttachmentHolder.ATTACHMENTS_NBT_KEY) && bannerGlowTag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).contains(IBannerGlowData.ID.toString()))
+                                    api.deserialize(bannerGlowTag.getCompound(AttachmentHolder.ATTACHMENTS_NBT_KEY).getCompound(IBannerGlowData.ID.toString()));
+                                return api;
+                            },
+                            item);
             }
         }
     }

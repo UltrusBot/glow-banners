@@ -16,7 +16,6 @@ public class NeoForgeGlowBannersPlatformHelper implements IGlowBannersPlatformHe
     }
 
     public IBannerGlowData getData(ItemStack stack) {
-        if (!(stack.getItem() instanceof BannerItem) && !(stack.getItem() instanceof ShieldItem)) return null;
-        return stack.getData(GlowBannersModNeoForge.BANNER_GLOW_ITEM);
+        return stack.getCapability(GlowBannersModNeoForge.BANNER_GLOW_ITEM);
     }
 }

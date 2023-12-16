@@ -54,10 +54,8 @@ dependencies {
 
     modApi libs.cca.base
     modApi libs.cca.block
-    modApi libs.cca.item
     include libs.cca.base
     include libs.cca.block
-    include libs.cca.item
 
     compileOnly libs.autoservice
     annotationProcessor libs.autoservice

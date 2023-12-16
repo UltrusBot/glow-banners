@@ -28,7 +28,6 @@ fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fab
 
 cca_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "cca" }
 cca_block = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-block", version.ref = "cca" }
-cca_item = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-item", version.ref = "cca" }
 
 neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 autoservice = { module = "com.google.auto.service:auto-service", version.ref = "autoservice" }

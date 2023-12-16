@@ -1,11 +1,13 @@
 package me.ultrusmods.glowingbanners.attachment;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import me.ultrusmods.glowingbanners.GlowBannersModFabric;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -56,14 +58,15 @@ public class BannerGlowComponent implements IBannerGlowData, AutoSyncedComponent
 
     @Override
     public void setGlowingLayers(Collection<Integer> value) {
+        clearGlowingLayers();
         for (int i : value) {
             addGlowToLayer(i);
         }
     }
 
     @Override
-    public void sync(BannerBlockEntity blockEntity) {
-        GlowBannersComponents.BANNER_GLOW.sync(blockEntity);
+    public void sync(@Nullable BannerBlockEntity blockEntity) {
+        GlowBannersModFabric.BANNER_GLOW.sync(this.provider);
     }
 
     @Override

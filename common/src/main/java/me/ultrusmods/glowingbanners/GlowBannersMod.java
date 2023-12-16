@@ -32,9 +32,6 @@ public class GlowBannersMod {
 
     public static IBannerGlowData BANNER_RENDERER_CONTEXT;
 
-    public void init() {
-    }
-
     public static InteractionResult interactWithBlock(Player player, Level level, InteractionHand hand, BlockHitResult result) {
         BlockPos pos = result.getBlockPos();
         BlockState state = level.getBlockState(pos);

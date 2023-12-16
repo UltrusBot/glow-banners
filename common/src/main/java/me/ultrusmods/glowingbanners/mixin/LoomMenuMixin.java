@@ -1,6 +1,5 @@
 package me.ultrusmods.glowingbanners.mixin;
 
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import me.ultrusmods.glowingbanners.attachment.IBannerGlowData;
 import me.ultrusmods.glowingbanners.platform.services.IGlowBannersPlatformHelper;
@@ -8,10 +7,10 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -22,7 +21,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -41,20 +39,24 @@ public abstract class LoomMenuMixin extends AbstractContainerMenu {
 
     @Shadow private List<Holder<BannerPattern>> selectablePatterns;
 
+    @Shadow @Final
+    DataSlot selectedBannerPatternIndex;
+
     protected LoomMenuMixin(@Nullable MenuType<?> $$0, int $$1) {
         super($$0, $$1);
     }
 
     @Inject(method = "slotsChanged", at = @At(value = "INVOKE", target = "Ljava/util/List;size()I"), locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-    private void glowBanners$clearSelectablePatterns(Container container, CallbackInfo ci, ItemStack banner, ItemStack dye) {
+    private void glowBanners$addOrRemoveGlowToBannerInLoom(Container container, CallbackInfo ci, ItemStack banner, ItemStack dye) {
         boolean hasGlowInkSac = dye.is(Items.GLOW_INK_SAC);
         boolean hasInkSac = dye.is(Items.INK_SAC);
         if (hasGlowInkSac || hasInkSac) {
             this.selectablePatterns = ImmutableList.of();
+            this.selectedBannerPatternIndex.set(-1);
             ItemStack result = this.bannerSlot.getItem().copy();
-            int lastLayer = BannerBlockEntity.getItemPatterns(result).isEmpty() ? 0 : BannerBlockEntity.getItemPatterns(result).size();
+            int lastLayer = BannerBlockEntity.getItemPatterns(result) == null ? 0 : BannerBlockEntity.getItemPatterns(result).size();
 
-            boolean isOriginalLastLayerGlowing = IGlowBannersPlatformHelper.INSTANCE.getData(this.bannerSlot.getItem()).isLayerGlowing(lastLayer);
+            boolean isOriginalLastLayerGlowing = IGlowBannersPlatformHelper.INSTANCE.getData(this.bannerSlot.getItem()).shouldAllGlow() || IGlowBannersPlatformHelper.INSTANCE.getData(this.bannerSlot.getItem()).isLayerGlowing(lastLayer);
             if (hasGlowInkSac && isOriginalLastLayerGlowing || hasInkSac && !isOriginalLastLayerGlowing) {
                 ci.cancel();
                 return;
