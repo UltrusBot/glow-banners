@@ -1,0 +1,8 @@
+{
+  "type": "glowingbanners:set_banner_glow",
+  "conditions": [
+    {
+      "condition": "glowingbanners:is_banner_block"
+    }
+  ]
+}

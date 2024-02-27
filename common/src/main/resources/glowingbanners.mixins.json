@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.ultrusmods.glowingbanners.mixin",
+  "refmap": "glowingbanners.refmap.json",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "AbstractBannerBlockMixin",
+    "AbstractCauldronBlockAccessor",
+    "BannerBlockEntityMixin",
+    "BannerItemMixin",
+    "ItemMixin",
+    "LoomMenuDyeSlotMixin",
+    "LoomMenuMixin"
+  ],
+  "client": [
+    "client.BannerRendererMixin",
+    "client.BlockEntityWithoutLevelRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

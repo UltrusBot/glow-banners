@@ -1,0 +1,102 @@
+plugins {
+    id 'fabric-loom'
+    id 'maven-publish'
+}
+
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+base {
+    archivesName = "${archives_base_name}-fabric"
+}
+version = project.version
+group = project.maven_group
+
+repositories {
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://maven.ladysnake.org/releases'
+    }
+}
+
+
+loom {
+    mixin.defaultRefmapName = "${mod_id}.refmap.json"
+
+    runs {
+        client {
+            client()
+            setConfigName("Fabric Client")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+        server {
+            server()
+            setConfigName("Fabric Server")
+            ideConfigGenerated(true)
+            runDir("run")
+        }
+    }
+}
+
+dependencies {
+    minecraft libs.minecraft
+    mappings(loom.officialMojangMappings())
+
+    modImplementation libs.fabric.loader
+    modImplementation libs.fabric.api
+
+    // For whatever reason, Fabric Loader didn't seem to bring Mixin Extras over to
+    // this workspace, so I'm including this for precautionary reasons.
+    implementation libs.mixin.extras.fabric
+
+    compileOnly project(":common")
+
+    modApi libs.cca.base
+    modApi libs.cca.block
+    include libs.cca.base
+    include libs.cca.block
+
+    compileOnly libs.autoservice
+    annotationProcessor libs.autoservice
+
+//	include implementation("com.github.LlamaLad7:MixinExtras:0.0.9")
+//	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.9")
+
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    source(project(":common").sourceSets.main.allSource)
+}
+tasks.withType(Javadoc).configureEach {
+    source(project(":common").sourceSets.main.allJava)
+}
+tasks.named("sourcesJar", Jar) {
+    from(project(":common").sourceSets.main.allSource)
+}
+
+processResources {
+    from project(":common").sourceSets.main.resources
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId base.archivesName.get()
+            from components.java
+        }
+    }
+
+    repositories {
+        // TODO: Ultrus places maven here.
+    }
+}

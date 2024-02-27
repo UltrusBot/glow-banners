@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "${neoforge_loader_version_range}"
+license = "MIT"
+
+[[mods]]
+modId = "glowingbanners"
+version = "${version}"
+displayName = "Glow Banners"
+displayURL="https://www.ultrusmods.me/"
+logoFile="glowingbanners.png"
+credits="MerchantPug"
+authors = "UltrusBot"
+description = '''This mod adds glowing banners''' #mandatory (Supports multiline text)
+[[mixins]]
+config = "glowingbanners.mixins.json"
+[[dependencies.glowingbanners]]
+modId = "neoforge"
+mandatory = true
+versionRange = "${neoforge_loader_version_range}"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.glowingbanners]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft_version_range}"
+ordering = "NONE"
+side = "BOTH"

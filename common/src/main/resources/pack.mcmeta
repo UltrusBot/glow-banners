@@ -1,0 +1,6 @@
+{
+    "pack": {
+        "description": "TooManyOrigins Resources",
+        "pack_format": ${pack_version}
+    }
+}

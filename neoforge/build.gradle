@@ -1,0 +1,71 @@
+import org.apache.tools.ant.filters.LineContains
+
+plugins {
+    id 'idea'
+    id 'net.neoforged.gradle.userdev' version '7.0.63'
+    id 'maven-publish'
+    id 'java-library'
+}
+base {
+    archivesName = "${archives_base_name}-neoforge"
+}
+
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+    }
+    client {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+    }
+    server {
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        programArgument '--nogui'
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    implementation libs.neoforge
+    compileOnly project(":common")
+
+    compileOnly libs.autoservice
+    annotationProcessor libs.autoservice
+}
+
+// NeoGradle compiles the game, but we don't want to add our common code to the game's code
+TaskCollection.metaClass.excludingNeoTasks = { ->
+    delegate.matching { !it.name.startsWith("neo") }
+}
+
+tasks.withType(JavaCompile).excludingNeoTasks().configureEach {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+tasks.withType(Javadoc).excludingNeoTasks().configureEach {
+    source(project(":common").sourceSets.main.allJava)
+}
+
+tasks.named("sourcesJar", Jar) {
+    from(project(":common").sourceSets.main.allSource)
+}
+
+tasks.withType(ProcessResources).excludingNeoTasks().configureEach {
+    from project(":common").sourceSets.main.resources
+
+    filesMatching("*.mixins.json") {
+        filter(LineContains, negate: true, contains: [ 'refmap' ] )
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId base.archivesName.get()
+            from components.java
+        }
+    }
+    repositories {
+        // TODO: Ultrus places maven here.
+    }
+}

@@ -1,98 +1,83 @@
 plugins {
-	id 'fabric-loom' version '0.11.+'
-	id 'maven-publish'
-	id 'io.github.juuxel.loom-quiltflower' version '1.6.0'
-	id "com.github.breadmoirai.github-release" version "2.4.1"
-	id "com.modrinth.minotaur" version "2.+"
-	id 'me.hypherionmc.cursegradle' version '2.0.1'
-}
-apply from: 'https://raw.githubusercontent.com/UltrusBot/GradleScripts/1deb0dd4b4553d7845e21442227abb4c29b17ee8/release.gradle'
-
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-repositories {
-	maven {
-		name = "Quilt"
-		url 'https://maven.quiltmc.org/repository/release'
-	}
-	maven {
-		name = "Quilt Snapshots"
-		url 'https://maven.quiltmc.org/repository/snapshot'
-	}
-	maven {
-		url 'https://jitpack.io'
-	}
+	id 'fabric-loom' version '1.4-SNAPSHOT' apply(false)
+	id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply(false)
+	id 'org.spongepowered.mixin' version '0.7-SNAPSHOT' apply(false)
+	id "me.modmuss50.mod-publish-plugin" version "0.4.5"
 }
 
-dependencies {
-	minecraft libs.minecraft
-	mappings(variantOf(libs.quilt.mappings) { classifier("intermediary-v2") })
-	modImplementation libs.fabric.loader
+subprojects {
+	apply plugin: 'java'
 
-	modImplementation libs.fabric.api
-//	include implementation("com.github.LlamaLad7:MixinExtras:0.0.9")
-//	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.0.9")
+	java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+	java.withSourcesJar()
+	java.withJavadocJar()
 
-}
-
-var mod = createModReleaseMetadata(
-		"Glow Banners v$project.version",
-		file("$rootDir/CHANGELOG.md"),
-		["1.19.4", "1.20"],
-		["fabric", "quilt"],
-		"remapJar",
-		["remapSourcesJar"],
-		"v${project.version}",
-		false
-)
-modrinthInfo(mod, "glow-banners")
-githubInfo(mod, "UltrusBot", "glow-banners", "1.19.4")
-curseforgeInfo(mod, "508940")
-
-processResources {
-	inputs.property "version", project.version
-
-	filesMatching("fabric.mod.json") {
-		expand "version": project.version
-	}
-}
-
-tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
-	it.options.release = 17
-}
-
-java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
-	withSourcesJar()
-}
-
-jar {
-	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
+	jar {
+		from(rootProject.file("LICENSE")) {
+			rename { "${it}_${mod_name}" }
+		}
+		manifest {
+			attributes([
+					'Specification-Title'     : mod_name,
+					'Specification-Vendor'    : mod_author,
+					'Specification-Version'   : project.jar.archiveVersion,
+					'Implementation-Title'    : project.name,
+					'Implementation-Version'  : project.jar.archiveVersion,
+					'Implementation-Vendor'   : mod_author,
+					'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+					'Timestamp'               : System.currentTimeMillis(),
+					'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+					'Built-On-Minecraft'      : libs.minecraft
+			])
 		}
 	}
 
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+	sourcesJar {
+		from(rootProject.file("LICENSE")) {
+			rename { "${it}_${mod_name}" }
+		}
+	}
+
 	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
+		mavenCentral()
+		maven {
+			name = 'Sponge / Mixin'
+			url = 'https://repo.spongepowered.org/repository/maven-public/'
+		}
+		maven {
+			name = 'BlameJared Maven (JEI / CraftTweaker / Bookshelf)'
+			url = 'https://maven.blamejared.com'
+		}
+	}
+
+	tasks.withType(JavaCompile).configureEach {
+
+		it.options.encoding = 'UTF-8'
+		it.options.getRelease().set(17)
+	}
+
+	processResources {
+		def expandProps = [
+				"version": version,
+				"group": project.group, //Else we target the task's group.
+				"mod_name": mod_name,
+				"mod_author": mod_author,
+				"neoforge_loader_version_range": libs.versions.neoforge.loaderrange.get(),
+				"minecraft_version_range": libs.versions.neoforge.minecraftrange.get(),
+				"pack_version": libs.versions.pack.get()
+		]
+
+		filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', '*.mixins.json']) {
+			expand expandProps
+		}
+		inputs.properties(expandProps)
+	}
+
+	// Disables Gradle's custom module metadata from being published to maven. The
+	// metadata includes mapped dependencies which are not reasonably consumable by
+	// other mod developers.
+	tasks.withType(GenerateModuleMetadata).configureEach {
+
+		enabled = false
 	}
 }

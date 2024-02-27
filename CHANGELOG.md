@@ -1,1 +1,11 @@
-- Updated fabric mod json to add 1.20 and 1.19.4
+- Updated mod to utilise the multiloader template, for both Fabric and NeoForge.
+- Banners may now have an ink sac used on them to remove all glowing from it.
+- Cauldrons will now remove the latest glow of the layer as well as removing the latest layer instead of just removing the entire glow.
+- Banners may now accept using a glow ink sac in a loom, to apply the glow to the latest layer, and an ink sac in a loom to remove the glow from the latest layer.
+- Changed how tooltips render, instead of the `Glowing` tooltip at the end, your banner layers will be prefixed with "Glowing".
+- Changed internal glow banner NBT.
+  - Fabric: `"cardinal_components": {"glowingbanners:banner_glow": "all_glow": 0b, "glowing_layers": []}`
+  - NeoForge: `"neoforge:attachments": {"glowingbanners:banner_glow": "all_glow": 0b, "glowing_layers": []}`
+  - On items, it's the exact same NBT but it is instead stored inside the `BlockEntityTag` nbt.
+  - `all_glow` is a boolean value that determines whether all layers and future layers should glow, just like the old versions.
+  - `glowing_layers` accepts ints from 0 up to the maximum layer index.

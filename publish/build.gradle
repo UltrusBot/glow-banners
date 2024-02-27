@@ -1,0 +1,83 @@
+plugins {
+    id "me.modmuss50.mod-publish-plugin" version "0.4.5"
+}
+
+evaluationDependsOn(":common")
+evaluationDependsOn(":fabric")
+evaluationDependsOn(":neoforge")
+
+publishMods {
+    changelog = file("../CHANGELOG.md").text
+    displayName = "${mod_name} v${version}"
+    type = STABLE
+
+    def forgeLoaders = [
+            "neoforge"
+    ]
+    def fabricLoaders = [
+            "fabric",
+            "quilt"
+    ]
+    def mcVersions = [
+            "1.20.4"
+    ]
+
+    curseforge("curseforgeFabric") {
+        file = project(":fabric").remapJar.archiveFile
+
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "508940"
+        modLoaders.addAll(fabricLoaders)
+        minecraftVersions.addAll(mcVersions)
+
+        requires {
+            slug = "fabric-api"
+        }
+    }
+
+    modrinth("modrinthFabric") {
+        file = project(":fabric").remapJar.archiveFile
+
+        accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+        projectId = "r7G43arb"
+        modLoaders.addAll(fabricLoaders)
+        minecraftVersions.addAll(mcVersions)
+
+        requires {
+            slug = "fabric-api"
+        }
+    }
+
+    curseforge("curseforgeNeoforge") {
+        file = project(":neoforge").jar.archiveFile
+
+        accessToken = providers.environmentVariable("CURSEFORGE_API_KEY")
+        projectId = "508940"
+        modLoaders.addAll(forgeLoaders)
+        minecraftVersions.addAll(mcVersions)
+    }
+
+    modrinth("modrinthNeoforge") {
+        file = project(":neoforge").jar.archiveFile
+
+        accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+        projectId = "r7G43arb"
+        modLoaders.addAll(forgeLoaders)
+        minecraftVersions.addAll(mcVersions)
+    }
+
+    github {
+        additionalFiles.from(
+                project(":common").jar.archiveFile,
+                project(":common").sourcesJar.archiveFile,
+                project(":fabric").remapJar.archiveFile,
+                project(":fabric").remapSourcesJar.archiveFile,
+                project(":neoforge").jar.archiveFile,
+                project(":neoforge").sourcesJar.archiveFile)
+
+        accessToken = providers.environmentVariable("GITHUB_TOKEN")
+        repository = "UltrusBot/glow-banners"
+        commitish = "1.20.4" // This is the branch the release tag will be created from
+        tagName = "v${version}"
+    }
+}
