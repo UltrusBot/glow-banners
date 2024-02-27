@@ -5,6 +5,8 @@ import glowingbanners.attachment.BannerGlowItemCapability;
 import glowingbanners.loot.GlowBannerLootModifier;
 import glowingbanners.loot.IsBannerBlockLootCondition;
 import glowingbanners.network.GlowBannersNetworkHandler;
+import glowingbanners.registry.ModGlobalLootModifierSerializers;
+import glowingbanners.registry.ModLootConditionTypes;
 import me.ultrusmods.glowingbanners.GlowBannersMod;
 import me.ultrusmods.glowingbanners.attachment.IBannerGlowData;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -75,11 +77,12 @@ public class GlowBannersModNeoForge {
         @SubscribeEvent
         public static void registerContents(RegisterEvent event) {
             if (event.getRegistryKey() == NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS) {
-                event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, GlowBannerLootModifier.ID, () -> GlowBannerLootModifier.CODEC);
+                ModGlobalLootModifierSerializers.registerAll(event::register);
             } else if (event.getRegistryKey() == Registries.LOOT_CONDITION_TYPE) {
-                event.register(Registries.LOOT_CONDITION_TYPE, IsBannerBlockLootCondition.ID, () -> new LootItemConditionType(IsBannerBlockLootCondition.CODEC));
+                ModLootConditionTypes.registerAll(event::register);
             }
         }
+        
         @SubscribeEvent
         public static void registerCapabilities(RegisterCapabilitiesEvent event) {
             for (Item item : BuiltInRegistries.ITEM) {

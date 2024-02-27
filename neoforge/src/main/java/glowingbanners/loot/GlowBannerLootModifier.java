@@ -4,8 +4,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import glowingbanners.GlowBannersModNeoForge;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import me.ultrusmods.glowingbanners.GlowBannersMod;
 import me.ultrusmods.glowingbanners.attachment.IBannerGlowData;
-import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
@@ -13,12 +14,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 public class GlowBannerLootModifier extends LootModifier {
+    public static final ResourceLocation ID = GlowBannersMod.asResource("set_banner_glow");
     public static final Codec<GlowBannerLootModifier> CODEC = RecordCodecBuilder.create(inst ->
             LootModifier.codecStart(inst).apply(inst, GlowBannerLootModifier::new));
 
