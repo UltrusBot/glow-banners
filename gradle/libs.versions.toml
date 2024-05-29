@@ -1,15 +1,26 @@
 [versions]
-minecraft = "1.19.4"
-quilt_mappings = "1.19.4+build.10"
-fabric_loader = "0.14.19"
-fabric_api = "0.80.0+1.19.4"
+minecraft = "1.20.6"
+
+mixin = "0.8.5"
+mixin_extras = "0.3.5"
+
+fabric_loader = "0.15.10"
+fabric_api = "0.97.8+1.20.6"
+
+neoforge = "20.6.11-beta"
+neoforge_loader_range = "[3,)"
+neoforge_minecraft_range = "[1.20.6,)"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
+
+mixin = { module = "org.spongepowered:mixin", version.ref = "mixin"}
+mixin_extras_common = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extras"}
 
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
 
 [bundles]
 

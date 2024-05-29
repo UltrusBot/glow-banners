@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.ultrusmods.glowingbanners.mixin.fabric",
+  "refmap": "glowingbanners.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "BannerBlockEntityMixin",
+    "ChunkHolderMixin",
+    "PlayerChunkSenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
