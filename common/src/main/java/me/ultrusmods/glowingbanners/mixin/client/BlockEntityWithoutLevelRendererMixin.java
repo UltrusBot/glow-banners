@@ -18,4 +18,9 @@ public class BlockEntityWithoutLevelRendererMixin {
     private void glowBanners$storeShieldContext(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay, CallbackInfo ci) {
         GlowBannersMod.BANNER_RENDERER_CONTEXT = stack.get(GlowBannersDataComponents.BANNER_GLOW);
     }
+
+    @Inject(method = "renderByItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/BannerBlockEntity;fromItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/DyeColor;)V"))
+    private void glowBanners$storeBannerContext(ItemStack stack, ItemDisplayContext $$1, PoseStack $$2, MultiBufferSource $$3, int $$4, int $$5, CallbackInfo ci) {
+        GlowBannersMod.BANNER_RENDERER_CONTEXT = stack.get(GlowBannersDataComponents.BANNER_GLOW);
+    }
 }

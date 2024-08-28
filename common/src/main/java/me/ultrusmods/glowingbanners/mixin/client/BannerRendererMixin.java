@@ -16,10 +16,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BannerRendererMixin {
     @Inject(
             method = "render(Lnet/minecraft/world/level/block/entity/BannerBlockEntity;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;II)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderPatterns(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/resources/model/Material;ZLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderPatterns(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/resources/model/Material;ZLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V", shift = At.Shift.BEFORE)
     )
     public void glowBanners$storeContext(BannerBlockEntity bannerBlockEntity, float f, PoseStack poseStack, MultiBufferSource bufferSource, int i, int j, CallbackInfo ci) {
-        GlowBannersMod.BANNER_RENDERER_CONTEXT = GlowBannersMod.getHelper().getData(bannerBlockEntity);
+        if (bannerBlockEntity.hasLevel()) {
+            GlowBannersMod.storeContext(GlowBannersMod.getHelper().getData(bannerBlockEntity));
+        }
     }
 
     @Inject(
@@ -27,7 +29,7 @@ public class BannerRendererMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/blockentity/BannerRenderer;renderPatterns(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/model/geom/ModelPart;Lnet/minecraft/client/resources/model/Material;ZLnet/minecraft/world/item/DyeColor;Lnet/minecraft/world/level/block/entity/BannerPatternLayers;)V", shift = At.Shift.AFTER)
     )
     public void glowBanners$unstoreContext(BannerBlockEntity bannerBlockEntity, float f, PoseStack poseStack, MultiBufferSource bufferSource, int i, int j, CallbackInfo ci) {
-        GlowBannersMod.BANNER_RENDERER_CONTEXT = null;
+        GlowBannersMod.storeContext(null);
     }
 
     @ModifyArg(

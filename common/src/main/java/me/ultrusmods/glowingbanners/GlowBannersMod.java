@@ -44,6 +44,11 @@ public class GlowBannersMod {
         GlowBannersMod.helper = helper;
     }
 
+
+    public static void storeContext(BannerGlowComponent bannerBlockEntity) {
+        BANNER_RENDERER_CONTEXT = bannerBlockEntity;
+    }
+
     public static IGlowBannersPlatformHelper getHelper() {
         return helper;
     }

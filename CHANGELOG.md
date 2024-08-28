@@ -9,3 +9,4 @@
   - On items, it's the exact same NBT but it is instead stored inside the `BlockEntityTag` nbt.
   - `all_glow` is a boolean value that determines whether all layers and future layers should glow, just like the old versions.
   - `glowing_layers` accepts ints from 0 up to the maximum layer index.
+  - This update was done in PR #7 by @MerchantPug
