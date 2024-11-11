@@ -21,7 +21,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import java.util.List;
 
 public class SetBannerGlowFunction extends LootItemConditionalFunction {
-    public static final ResourceLocation ID = GlowBannersMod.asResource("set_banner_glow");
+    public static final ResourceLocation ID = GlowBannersMod.id("set_banner_glow");
 
     private static final MapCodec<SetBannerGlowFunction> CODEC = RecordCodecBuilder.mapCodec((instance) ->
             commonFields(instance)

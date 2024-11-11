@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.Optional;
 
 public record SyncBannerGlowS2CPacket(BlockPos pos, Optional<BannerGlowComponent> attachment) implements CustomPacketPayload {
-    public static final Type<SyncBannerGlowS2CPacket> TYPE = new Type<>(GlowBannersMod.asResource("sync_banner_glow"));
+    public static final Type<SyncBannerGlowS2CPacket> TYPE = new Type<>(GlowBannersMod.id("sync_banner_glow"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncBannerGlowS2CPacket> STREAM_CODEC = StreamCodec.of(SyncBannerGlowS2CPacket::write, SyncBannerGlowS2CPacket::new);
 
     public SyncBannerGlowS2CPacket(FriendlyByteBuf buf) {

@@ -17,7 +17,7 @@ import java.util.TreeSet;
 
 public class BannerGlowComponent {
     public static final BannerGlowComponent EMPTY = new BannerGlowComponent();
-    public static final ResourceLocation ID = GlowBannersMod.asResource("banner_glow");
+    public static final ResourceLocation ID = GlowBannersMod.id("banner_glow");
     public static final Codec<BannerGlowComponent> CODEC = RecordCodecBuilder.create(inst -> inst.group(
             Codec.BOOL.optionalFieldOf("all_glow", false).forGetter(BannerGlowComponent::shouldAllGlow),
             Codec.list(Codec.INT).optionalFieldOf("glowing_layers", List.of()).xmap(Collections::unmodifiableCollection, List::copyOf).forGetter(BannerGlowComponent::getGlowingLayers)

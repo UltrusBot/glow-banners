@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ShieldDecorationRecipe.class)
 public class ShieldDecorationRecipeMixin {
-    @ModifyReturnValue(method = "assemble(Lnet/minecraft/world/inventory/CraftingContainer;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At(value = "RETURN", ordinal = 1))
+
+    @ModifyReturnValue(method = "assemble(Lnet/minecraft/world/item/crafting/CraftingInput;Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/world/item/ItemStack;", at = @At(value = "RETURN", ordinal = 1))
     private ItemStack glowBanners$assembleWithGlow(ItemStack original, @Local(ordinal = 0) ItemStack bannerStack) {
         if (bannerStack.has(GlowBannersDataComponents.BANNER_GLOW))
             original.set(GlowBannersDataComponents.BANNER_GLOW, bannerStack.get(GlowBannersDataComponents.BANNER_GLOW));

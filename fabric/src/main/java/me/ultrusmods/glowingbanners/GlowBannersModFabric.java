@@ -6,7 +6,6 @@ import me.ultrusmods.glowingbanners.platform.FabricGlowBannersPlatformHelper;
 import me.ultrusmods.glowingbanners.registry.GlowBannersAttachmentTypes;
 import me.ultrusmods.glowingbanners.registry.GlowBannersDataComponents;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;

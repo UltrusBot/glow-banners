@@ -1,27 +1,35 @@
 [versions]
-minecraft = "1.20.6"
+minecraft = "1.21"
+fabric_loader = "0.15.11"
+fabric_api = "0.100.7+1.21"
+neoforge = "21.0.111-beta"
+modmenu = "11.0.1"
 
-mixin = "0.8.5"
-mixin_extras = "0.3.5"
+# Mixin
+fabric_mixin = "0.15.0+mixin.0.8.7"
+mixin_extras = "0.4.0"
 
-fabric_loader = "0.15.10"
-fabric_api = "0.97.8+1.20.6"
+# Plugins
+fabric_loom = "1.7-SNAPSHOT"
+publishing = "0.6.2"
+neoforge_moddev = "1.0.13"
 
-neoforge = "20.6.11-beta"
-neoforge_loader_range = "[3,)"
-neoforge_minecraft_range = "[1.20.6,)"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-
-mixin = { module = "org.spongepowered:mixin", version.ref = "mixin"}
-mixin_extras_common = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extras"}
-
 fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+neoforge = { module = "net.minecraftforge:forge", version.ref = "neoforge" }
 
-neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+# Extra Libraries
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 
-[bundles]
+# Mixin
+fabric_mixin = { module = "net.fabricmc:sponge-mixin", version.ref = "fabric_mixin" }
+mixin_extras = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixin_extras" }
 
 [plugins]
+fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
+publishing = { id = "me.modmuss50.mod-publish-plugin", version.ref = "publishing" }
+neoforge_moddev = { id = "net.neoforged.moddev", version.ref = "neoforge_moddev" }
+#machete = { id = "io.github.p03w.machete", version.ref = "machete" }

@@ -21,7 +21,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 public class GlowBannerLootModifier extends LootModifier {
-    public static final ResourceLocation ID = GlowBannersMod.asResource("set_banner_glow");
+    public static final ResourceLocation ID = GlowBannersMod.id("set_banner_glow");
     public static final MapCodec<GlowBannerLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             LootModifier.codecStart(inst).apply(inst, GlowBannerLootModifier::new));
 

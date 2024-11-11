@@ -7,8 +7,6 @@ import me.ultrusmods.glowingbanners.registry.GlowBannersDataComponents;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -176,7 +174,7 @@ public class GlowBannersMod {
         return InteractionResult.PASS;
     }
 
-    public static ResourceLocation asResource(String path) {
-        return new ResourceLocation(MOD_ID, path);
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

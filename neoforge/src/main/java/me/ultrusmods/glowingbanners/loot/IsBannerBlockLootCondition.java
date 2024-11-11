@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 
 public class IsBannerBlockLootCondition implements LootItemCondition {
-    public static final ResourceLocation ID = GlowBannersMod.asResource("is_banner_block");
+    public static final ResourceLocation ID = GlowBannersMod.id("is_banner_block");
     private static final IsBannerBlockLootCondition INSTANCE = new IsBannerBlockLootCondition();
     public static final MapCodec<IsBannerBlockLootCondition> CODEC = MapCodec.unit(INSTANCE);
 
