@@ -1,7 +1,7 @@
 package me.ultrusmods.glowbanners.gradle
 
 object Properties {
-    const val MOD = "1.0.0"
+    const val MOD = "2.0.0"
 
     const val JAVA = 21
 
